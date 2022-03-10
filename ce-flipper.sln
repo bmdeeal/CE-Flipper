@@ -1,0 +1,23 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{20D4826A-C6FA-45DB-90F4-C717570B9F32}") = "ce-flipper", "ce-flipper.csdproj", "{7C865EB8-72E0-4295-949C-3997636A3055}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{7C865EB8-72E0-4295-949C-3997636A3055}.Debug.ActiveCfg = Debug|Windows CE
+		{7C865EB8-72E0-4295-949C-3997636A3055}.Debug.Build.0 = Debug|Windows CE
+		{7C865EB8-72E0-4295-949C-3997636A3055}.Debug.Deploy.0 = Debug|Windows CE
+		{7C865EB8-72E0-4295-949C-3997636A3055}.Release.ActiveCfg = Release|Windows CE
+		{7C865EB8-72E0-4295-949C-3997636A3055}.Release.Build.0 = Release|Windows CE
+		{7C865EB8-72E0-4295-949C-3997636A3055}.Release.Deploy.0 = Release|Windows CE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal
