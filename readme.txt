@@ -30,7 +30,7 @@ Your system must have the .NET Compact Framework installed to run CE-Flipper.
 If you are running CE 4.1 or later and do not have it, you can download it from here:
 	https://www.microsoft.com/en-us/download/details.aspx?id=24690
 
-If you are running CE 2.0 to 4.0, you can compatible versions on HPCFactor:
+If you are running CE 2.0 to 4.0, you can find compatible versions on HPCFactor:
 	https://www.hpcfactor.com/scl/search.asp?freetext=.net+compact+framework&Search=Search&title=true
 <TODO: find another link/re-host the files myself -- software from HPCFactor is no longer downloadable for new users>
 
