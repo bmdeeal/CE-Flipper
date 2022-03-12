@@ -19,6 +19,11 @@ using System.Data;
 	
 	This program was written for a particularly slow handheld system and is a quick and dirty hack.
 	Faster CE devices can just use a real video player like TCPMP and real video formats.
+	
+	TODO:
+	* attempt to speed up loading?
+	* maybe add an alternate format where each image is made of a stack of sub-images? that actually seems like a good idea
+	* the .anim file wouldn't be blank
 */
 namespace ce_flipper
 {
@@ -31,7 +36,7 @@ namespace ce_flipper
 		private bool ready=false;
 		private Bitmap current;
 		private Bitmap previous;
-		private bool loop=false;
+		private bool loop=true;
 		private int frame=1;
 
 		private System.Windows.Forms.PictureBox pictureBoxArea;
@@ -46,6 +51,10 @@ namespace ce_flipper
 		private System.Windows.Forms.MenuItem menuItemLoop;
 		private System.Windows.Forms.MenuItem menuItem7;
 		private System.Windows.Forms.MenuItem menuItem8;
+		private System.Windows.Forms.MenuItem menuItem10;
+		private System.Windows.Forms.MenuItem menuItemAbout;
+		private System.Windows.Forms.MenuItem menuItem11;
+		private System.Windows.Forms.MenuItem menuItem12;
 		private System.Windows.Forms.MenuItem menuItem9;
 		
 		public Form1()
@@ -78,14 +87,18 @@ namespace ce_flipper
 			this.mainMenu1 = new System.Windows.Forms.MainMenu();
 			this.menuItem1 = new System.Windows.Forms.MenuItem();
 			this.menuItem2 = new System.Windows.Forms.MenuItem();
+			this.menuItem5 = new System.Windows.Forms.MenuItem();
 			this.menuItem4 = new System.Windows.Forms.MenuItem();
 			this.menuItem3 = new System.Windows.Forms.MenuItem();
-			this.menuItem5 = new System.Windows.Forms.MenuItem();
 			this.menuItem6 = new System.Windows.Forms.MenuItem();
 			this.menuItemLoop = new System.Windows.Forms.MenuItem();
 			this.menuItem7 = new System.Windows.Forms.MenuItem();
 			this.menuItem8 = new System.Windows.Forms.MenuItem();
 			this.menuItem9 = new System.Windows.Forms.MenuItem();
+			this.menuItem10 = new System.Windows.Forms.MenuItem();
+			this.menuItemAbout = new System.Windows.Forms.MenuItem();
+			this.menuItem11 = new System.Windows.Forms.MenuItem();
+			this.menuItem12 = new System.Windows.Forms.MenuItem();
 			// 
 			// timer1
 			// 
@@ -102,68 +115,91 @@ namespace ce_flipper
 			// 
 			this.mainMenu1.MenuItems.Add(this.menuItem1);
 			this.mainMenu1.MenuItems.Add(this.menuItem6);
+			this.mainMenu1.MenuItems.Add(this.menuItem10);
 			// 
 			// menuItem1
 			// 
 			this.menuItem1.MenuItems.Add(this.menuItem2);
 			this.menuItem1.MenuItems.Add(this.menuItem5);
+			this.menuItem1.MenuItems.Add(this.menuItem12);
 			this.menuItem1.MenuItems.Add(this.menuItem4);
 			this.menuItem1.MenuItems.Add(this.menuItem3);
 			this.menuItem1.Text = "File";
-			this.menuItem1.Click += new System.EventHandler(this.menuItem1_Click);
 			// 
 			// menuItem2
 			// 
-			this.menuItem2.Text = "Load";
+			this.menuItem2.Text = "L&oad";
 			this.menuItem2.Click += new System.EventHandler(this.menuItem2_Click);
+			// 
+			// menuItem5
+			// 
+			this.menuItem5.Text = "&Play (from start)";
+			this.menuItem5.Click += new System.EventHandler(this.menuItem5_Click);
 			// 
 			// menuItem4
 			// 
-			this.menuItem4.Text = "Stop";
+			this.menuItem4.Text = "Pause/&Stop";
 			this.menuItem4.Click += new System.EventHandler(this.menuItem4_Click);
 			// 
 			// menuItem3
 			// 
-			this.menuItem3.Text = "Exit";
+			this.menuItem3.Text = "E&xit";
 			this.menuItem3.Click += new System.EventHandler(this.menuItem3_Click);
-			// 
-			// menuItem5
-			// 
-			this.menuItem5.Text = "Play";
-			this.menuItem5.Click += new System.EventHandler(this.menuItem5_Click);
 			// 
 			// menuItem6
 			// 
 			this.menuItem6.MenuItems.Add(this.menuItemLoop);
-			this.menuItem6.MenuItems.Add(this.menuItem7);
+			this.menuItem6.MenuItems.Add(this.menuItem11);
 			this.menuItem6.MenuItems.Add(this.menuItem8);
+			this.menuItem6.MenuItems.Add(this.menuItem7);
 			this.menuItem6.MenuItems.Add(this.menuItem9);
 			this.menuItem6.Text = "Options";
 			// 
 			// menuItemLoop
 			// 
-			this.menuItemLoop.Text = "Loop";
+			this.menuItemLoop.Checked = true;
+			this.menuItemLoop.Text = "&Loop";
 			this.menuItemLoop.Click += new System.EventHandler(this.menuItemLoop_Click);
 			// 
 			// menuItem7
 			// 
-			this.menuItem7.Text = "Delay 330ms (normal)";
+			this.menuItem7.Text = "Delay 330ms (&normal)";
 			this.menuItem7.Click += new System.EventHandler(this.menuItem7_Click);
 			// 
 			// menuItem8
 			// 
-			this.menuItem8.Text = "Delay 110ms (fast)";
+			this.menuItem8.Text = "Delay 110ms (&fast)";
 			this.menuItem8.Click += new System.EventHandler(this.menuItem8_Click);
 			// 
 			// menuItem9
 			// 
-			this.menuItem9.Text = "Delay 660ms (slow)";
+			this.menuItem9.Text = "Delay 660ms (&slow)";
 			this.menuItem9.Click += new System.EventHandler(this.menuItem9_Click);
+			// 
+			// menuItem10
+			// 
+			this.menuItem10.MenuItems.Add(this.menuItemAbout);
+			this.menuItem10.Text = "Help";
+			// 
+			// menuItemAbout
+			// 
+			this.menuItemAbout.Text = "&About";
+			this.menuItemAbout.Click += new System.EventHandler(this.menuItemAbout_Click);
+			// 
+			// menuItem11
+			// 
+			this.menuItem11.Text = "Delay 55ms (&very fast)";
+			this.menuItem11.Click += new System.EventHandler(this.menuItem11_Click);
+			// 
+			// menuItem12
+			// 
+			this.menuItem12.Text = "Pl&ay (from current)";
+			this.menuItem12.Click += new System.EventHandler(this.menuItem12_Click);
 			// 
 			// Form1
 			// 
 			this.BackColor = System.Drawing.Color.Black;
-			this.ClientSize = new System.Drawing.Size(258, 175);
+			this.ClientSize = new System.Drawing.Size(258, 159);
 			this.Controls.Add(this.pictureBoxArea);
 			this.Menu = this.mainMenu1;
 			this.Text = "CE-Flipper Animation Player";
@@ -263,12 +299,6 @@ namespace ce_flipper
 			ready=false;
 		}
 
-		//nothing
-		private void menuItem1_Click(object sender, System.EventArgs e)
-		{
-		
-		}
-
 		//play menu option
 		private void menuItem5_Click(object sender, System.EventArgs e)
 		{
@@ -300,6 +330,25 @@ namespace ce_flipper
 		{
 			loop=!loop;
 			menuItemLoop.Checked=loop;
+		}
+
+		//credits
+		private void menuItemAbout_Click(object sender, System.EventArgs e)
+		{
+			MessageBox.Show("CE-Flipper - (C) 2022 by B.M.Deeal\n<brenden.deeal@gmail.com>\nCE-Flipper is distributed under the ISC license, see license.txt for details.\nCheck readme.txt for usage info.");
+		}
+
+		//very fast delay menu option
+		private void menuItem11_Click(object sender, System.EventArgs e)
+		{
+			timer1.Interval=55;
+		}
+
+		//continue playback from current frame
+		private void menuItem12_Click(object sender, System.EventArgs e)
+		{
+			ready=true;
+			timer1.Enabled=true;
 		}
 	}
 }
