@@ -2,6 +2,9 @@
 #2022 B.M.Deeal
 #this script distributed under CC0
 
+#TODO: way to pass default arguments (could just tell the user to pass "" for anything they don't want to think about, or pass _ to it -- I like _ more, personally)
+#TODO: rewrite to non-positional arguments (TODO2: at some point I had made a template for handling that, where is it?)
+
 #show help
 #this also stops rogue arguments from being passed to ffmpeg or imagemagick
 if [ $# -eq 0 ] || [ $# -gt 5 ] || [[ "$1" =~ ^-.* ]] || [[ "$2" =~ ^-.* ]] || [[ "$3" =~ - ]] || [[ "$4" =~ - ]] || [ "$1" == ""  ]
@@ -15,7 +18,7 @@ then
 	echo "Requires ffmpeg and imagemagick."
 	echo ""
 	echo "usage:"
-	echo "  ce-flipper-conv.sh video-file [dither mode] [framerate] [gamma] [color|gray]"
+	echo "  ce-flipper-conv.sh video-file [dither mode] [framerate] [gamma] [color|color1|gray|bw]"
 	echo ""
 	echo "example:"
 	echo "$ ce-flipper-conv.sh myvideo.webm o4x4 3 1 color"
@@ -53,7 +56,24 @@ if [[ "$5" == "color" ]] || [[ "$5" == "colour" ]]
 then
 	mono_flag=""
 	colors="16"
+	dither="$dither,3"
 fi
+
+#1-bit per channel 3-bit color
+if [[ "$5" == "color1" ]] || [[ "$5" == "colour1" ]]
+then
+	mono_flag=""
+	colors="16"
+	dither="$dither"
+fi
+
+if [[ "$5" == "gray" ]] || [[ "$5" == "grey" ]]
+then
+	mono_flag="-colorspace Gray"
+	colors="16"
+	dither="$dither,5"
+fi
+
 
 #set dumping all frames
 if ! [ "$framerate" == "0" ]
